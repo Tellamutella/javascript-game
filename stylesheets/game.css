@@ -1,0 +1,14 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+#player {
+    position: fixed;
+    bottom: 0;
+}
+
+.arrow {
+    position:absolute;
+    bottom: 0;
+}
