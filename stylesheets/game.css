@@ -9,6 +9,11 @@ html, body {
 }
 
 .arrow {
-    position:absolute;
+    position:fixed;
     bottom: 0;
+}
+
+.zombie{
+  position:fixed;
+  top:0;
 }

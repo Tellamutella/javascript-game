@@ -1,24 +1,12 @@
-// class Game {
-//   constructor(){
-//     this.player = new Player()
-//     this.zombie = [new Zombie()]
-//     this.score = 0
-//   }
-// }
-
-
-
-
 class Player {
     constructor() {
         this.player = document.getElementById("player");
         this.playerControl();
-        this.arrows = []
+        this.health = 3
     }
     playerControl() {
         window.addEventListener("keydown", function(e) {
-          let test = this.player
-          console.log(test)
+            let test = this.player
             switch (e.key) {
                 case ("ArrowRight"):
                     player.style.left = `${player.offsetLeft + 25}px`
@@ -45,7 +33,7 @@ class Arrow {
         this.moving = this.moving.bind(this)
         this.moving()
         this.playerPosition = player.x
-        setInterval(this.moving, 1)
+        setInterval(this.moving, 10)
     }
     moving() {
         var arow = this.arrow
@@ -54,4 +42,28 @@ class Arrow {
     }
 }
 
+class Zombie {
+    constructor() {
+        var body = document.getElementsByTagName("body")[0]
+        var img = document.createElement("img")
+        img.setAttribute("src", "./images/zombie.png")
+        img.setAttribute("class", "zombie")
+        this.zombie = img
+        body.appendChild(this.zombie)
+        this.postion = Math.floor(Math.random() * 700)
+        this.spawn = this.spawn.bind(this)
+        this.spawn();
+        setInterval(this.spawn, 400)
+    }
+    spawn() {
+        var zombie = this.zombie
+        zombie.style.left = `${this.postion}px`
+        zombie.style.top = `${zombie.offsetTop + 25}px`
+    }
+}
+
 var test = new Player
+
+setInterval(function() {
+    return new Zombie
+}, 500);
