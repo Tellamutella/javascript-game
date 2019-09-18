@@ -1,19 +1,97 @@
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
 }
 
+
 #player {
+    position: fixed;
+    bottom: 15px;
+}
+
+.arrow {
     position: fixed;
     bottom: 0;
 }
 
-.arrow {
-    position:fixed;
-    bottom: 0;
+.zombie {
+    position: fixed;
+    top: 0;
 }
 
-.zombie{
-  position:fixed;
-  top:0;
+#score {
+    position: fixed;
+    right: 250px;
+    top: 100px;
+}
+
+.game {
+    position: relative;
+    margin: 5px 5px;
+    max-width: 900px;
+    min-height: 800px;
+    border: 1px black solid;
+    background-image: url("../images/name2.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-size: 900px 800px;
+}
+
+#health {
+    float: right;
+    margin: 15px 15px;
+    padding: 10px 10px;
+    background-color: black;
+    border-radius: 5px;
+
+}
+
+.fa {
+    color: red;
+}
+
+.start-btn {
+    position: fixed;
+    top: 380px;
+    left: 380px;
+    width: 180px;
+    height: 65px;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    font-weight: bold;
+    border: none;
+    border-radius: 35px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.start-btn:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.end-btn{
+    display: none;
+    position: fixed;
+    top: 380px;
+    left: 380px;
+    width: 200px;
+    height: 65px;
+    font-size: 13px;
+    letter-spacing: 2.5px;
+    font-weight: bold;
+    border: none;
+    border-radius: 35px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+    background-color:red;
+    color: white;
+
 }

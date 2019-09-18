@@ -1,99 +1,163 @@
 class Game {
     constructor() {
         this.player = new Player();
-        this.score = 0
-        // this.create();
-        this.zombies = new Zombie();
+        this.create();
+        this.doubleTime();
+        this.tripleTime();
+        this.quadrupleTime();
     }
     create() {
-        setInterval(function() {
-            new Zombie()
+        let fixThis = this
+        var zombieId = setInterval(function() {
+            new Zombie(fixThis)
+            if (fixThis.player.health < 0) {
+                clearInterval(zombieId)
+                removeAllZombie()
+            }
         }, 400)
     }
 
+    doubleTime() {
+        let fixThis = this
+        setTimeout(function() {
+            fixThis.create();
+            console.log(`double Time`)
+        }, 7000);
+    }
+
+    tripleTime() {
+        let fixThis = this
+        setTimeout(function() {
+            fixThis.create();
+            console.log(`tripple Time`)
+        }, 10000);
+    }
+
+    quadrupleTime() {
+        let fixThis = this
+        setTimeout(function() {
+            // fixThis.create();
+            // console.log(`quadruple Time time`)
+            var zombieId = setInterval(function() {
+                new Zombie(fixThis)
+                if (fixThis.player.health < 0) {
+                    clearInterval(zombieId)
+                    removeAllZombie()
+                }
+            }, 40)
+        }, 15000);
+    }
 }
 
+Game.score = 0;
 
 class Player {
     constructor() {
         this.player = document.getElementById("player");
         this.playerControl();
+        player.style.left = 0
         this.health = 3;
+        this.fire()
     }
+
+    fire() {
+        let checkGame = this
+        setInterval(function() {
+            new Arrow();
+            if (checkGame.health === 0) {
+                $('.end-btn').toggle('display')
+            }
+        }, 200)
+    }
+
     playerControl() {
         window.addEventListener("keydown", function(e) {
             switch (e.key) {
                 case ("ArrowRight"):
-                    player.style.left = `${player.offsetLeft + 25}px`
+                    if (parseInt(player.style.left, 10) < 850) {
+                        player.style.left = `${player.offsetLeft + 25}px`
+                    }
                     break;
                 case ("ArrowLeft"):
-                    player.style.left = `${player.offsetLeft - 25}px`
-                    break;
-                case ("ArrowUp"):
-                    new Arrow();
+                    if (player.style.left == `0px`) {} else {
+                        player.style.left = `${player.offsetLeft - 25}px`
+                    }
                     break;
             }
         })
     }
 }
 
-
 class Arrow {
     constructor() {
         var body = document.getElementsByTagName("body")[0]
-        var img = document.createElement("img")
-        img.setAttribute("src", "./images/arrow.png")
-        img.setAttribute("class", "arrow")
-        this.arrow = img
-        body.appendChild(this.arrow)
-        console.log(this.arrow)
-        this.moving = this.moving.bind(this)
-        this.moving()
+        this.arrow = makeImg('arrow')
         this.playerPosition = player.x
-        var intervalId = setInterval(this.moving, 50)
+        this.arrow.style.left = `${this.playerPosition}px`
+        body.appendChild(this.arrow)
+        this.arrowMoving = this.arrowMoving.bind(this)
+        this.arrowMoving()
+        this.intervalId = setInterval(this.arrowMoving, 10)
     }
 
-    moving() {
+    arrowMoving() {
         var arow = this.arrow
-        arow.style.left = `${this.playerPosition}px`
+        console.log(arow)
         arow.style.top = `${arow.offsetTop - 10}px`
-        Zombie.zombies.forEach(function(element) {
-            if (isCollide(arow, element.zombie)) {
-                console.log(`hit`)
-            } else {
-                console.log(`mis`)
+        if (parseInt(arow.style.top, 10) < 0) {
+            arow.remove()
+            clearInterval(this.intervalId)
+        }
+        for (var i = 0; i < Zombie.zombies.length; i++) {
+            if (isCollide(arow, Zombie.zombies[i].zombie)) {
+                Game.score += 1
+                $('#score').text(`${Game.score} points`)
+                clearInterval(this.intervalId)
+                clearInterval(Zombie.zombies[i].charge)
+                arow.remove();
+                Zombie.zombies[i].zombie.remove();
+                Zombie.zombies.splice(i, 1)
             }
-        })
+        }
     }
 }
 
 
 class Zombie {
-    constructor() {
+    constructor(gameObj) {
         var body = document.getElementsByTagName("body")[0]
-        var img = document.createElement("img")
-        img.setAttribute("src", "./images/zombie.png")
-        img.setAttribute("class", "zombie")
-        this.zombie = img
-        body.appendChild(this.zombie)
+        this.zombie = makeImg('zombie')
         this.position = Math.floor(Math.random() * 700)
-        this.spawn = this.spawn.bind(this)
+        this.zombie.style.left = `${this.position}px`
+        body.appendChild(this.zombie)
+        this.zombieMove = this.zombieMove.bind(this)
         Zombie.zombies.push(this)
-        this.spawn();
-        setInterval(this.spawn, 400)
+        this.charge = setInterval(this.zombieMove, 200)
+        this.gameObj = gameObj
     }
 
-    spawn() {
+    zombieMove() {
         var zombie = this.zombie
-        zombie.style.left = `${this.position}px`
         zombie.style.top = `${zombie.offsetTop + 25}px`
+        if (parseInt(zombie.style.top, 10) > 750) {
+            zombie.remove();
+            this.gameObj.player.health--
+            $(`i`).last().remove()
+            clearInterval(this.charge)
+        }
     }
+}
+
+function makeImg(word) {
+    var img = document.createElement("img")
+    img.setAttribute("src", `./images/${word}.png`)
+    img.setAttribute("class", `${word}`)
+    return img
 }
 
 Zombie.zombies = []
 
 function isCollide(element1, element2) {
-    console.log(element1)
     var a = {
         y: 100 - element1.offsetTop - element1.height,
         x: element1.offsetLeft,
@@ -115,5 +179,15 @@ function isCollide(element1, element2) {
     );
 }
 
+function removeAllZombie() {
+    Zombie.zombies.forEach(function(element) {
+        element.zombie.remove();
+    })
+}
 
-var test = new Game()
+$(document).ready(function() {
+    $(`.start-btn`).click(function() {
+        new Game();
+        $(this).css("display", "none");
+    })
+});
