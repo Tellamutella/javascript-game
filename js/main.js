@@ -207,9 +207,11 @@ $(document).ready(function() {
 var x = document.getElementById("myAudio");
 var y = document.getElementById('zombieSpwan')
 
+
 function playZom(){
   y.play()
 }
+
 
 function playAudio() {
   x.play();
