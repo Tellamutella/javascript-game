@@ -2,12 +2,13 @@ html,
 body {
     margin: 0;
     padding: 0;
+    display: flex;
 }
 
 
 #player {
     position: fixed;
-    bottom: 15px;
+    bottom: 50px;
 }
 
 .arrow {
@@ -30,6 +31,7 @@ body {
     position: relative;
     margin: 5px 5px;
     max-width: 900px;
+    min-width: 900px;
     min-height: 800px;
     border: 1px black solid;
     background-image: url("../images/name2.jpg");
@@ -93,5 +95,15 @@ body {
     outline: none;
     background-color:red;
     color: white;
-
 }
+
+.ranking {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 600px;
+  border: 1px black solid;
+}
+
+

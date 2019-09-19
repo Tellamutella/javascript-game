@@ -10,6 +10,7 @@ class Game {
         let fixThis = this
         var zombieId = setInterval(function() {
             new Zombie(fixThis)
+            playZom()
             if (fixThis.player.health < 0) {
                 clearInterval(zombieId)
                 removeAllZombie()
@@ -61,11 +62,11 @@ class Player {
     }
 
     fire() {
-        let checkGame = this
-        setInterval(function() {
+        let fixThis = this
+        var intervalId = setInterval(function() {
             new Arrow();
-            if (checkGame.health === 0) {
-                $('.end-btn').toggle('display')
+            if(fixThis.health === 0){
+                clearInterval(intervalId)
             }
         }, 200)
     }
@@ -97,19 +98,20 @@ class Arrow {
         body.appendChild(this.arrow)
         this.arrowMoving = this.arrowMoving.bind(this)
         this.arrowMoving()
-        this.intervalId = setInterval(this.arrowMoving, 10)
+        this.intervalId = setInterval(this.arrowMoving, 1)
     }
 
     arrowMoving() {
         var arow = this.arrow
         console.log(arow)
-        arow.style.top = `${arow.offsetTop - 10}px`
+        arow.style.top = `${arow.offsetTop - 1}px`
         if (parseInt(arow.style.top, 10) < 0) {
             arow.remove()
             clearInterval(this.intervalId)
         }
         for (var i = 0; i < Zombie.zombies.length; i++) {
             if (isCollide(arow, Zombie.zombies[i].zombie)) {
+                playAudio()
                 Game.score += 1
                 $('#score').text(`${Game.score} points`)
                 clearInterval(this.intervalId)
@@ -132,17 +134,21 @@ class Zombie {
         body.appendChild(this.zombie)
         this.zombieMove = this.zombieMove.bind(this)
         Zombie.zombies.push(this)
-        this.charge = setInterval(this.zombieMove, 200)
+        this.charge = setInterval(this.zombieMove, 20)
         this.gameObj = gameObj
     }
 
     zombieMove() {
         var zombie = this.zombie
-        zombie.style.top = `${zombie.offsetTop + 25}px`
+        zombie.style.top = `${zombie.offsetTop + 2.5}px`
         if (parseInt(zombie.style.top, 10) > 750) {
             zombie.remove();
             this.gameObj.player.health--
             $(`i`).last().remove()
+            if (this.gameObj.player.health === 0) {
+                $('.end-btn').text(`YOU POOR CHILD YOUR SCORE IS ${Game.score}`)
+                $('.end-btn').toggle('display')
+            }
             clearInterval(this.charge)
         }
     }
@@ -190,4 +196,23 @@ $(document).ready(function() {
         new Game();
         $(this).css("display", "none");
     })
+
+    $(`.end-btn`).click(function(){
+        location.reload();
+        // new Game();
+        // $(this).toggle('display')
+    })
 });
+
+var x = document.getElementById("myAudio");
+var y = document.getElementById('zombieSpwan')
+
+function playZom(){
+  y.play()
+}
+
+function playAudio() {
+  x.play();
+}
+
+
