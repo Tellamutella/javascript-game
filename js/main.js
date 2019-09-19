@@ -5,7 +5,16 @@ class Game {
         this.doubleTime();
         this.tripleTime();
         this.quadrupleTime();
+        this.star();
     }
+
+    star() {
+        let fixThis = this
+        setInterval(function() {
+            new Star(this);
+        }, 10000)
+    }
+
     create() {
         let fixThis = this
         var zombieId = setInterval(function() {
@@ -15,7 +24,7 @@ class Game {
                 clearInterval(zombieId)
                 removeAllZombie()
             }
-        }, 400)
+        }, 600)
     }
 
     doubleTime() {
@@ -23,30 +32,33 @@ class Game {
         setTimeout(function() {
             fixThis.create();
             console.log(`double Time`)
-        }, 7000);
+        }, 12000);
     }
 
     tripleTime() {
         let fixThis = this
         setTimeout(function() {
-            fixThis.create();
-            console.log(`tripple Time`)
-        }, 10000);
-    }
-
-    quadrupleTime() {
-        let fixThis = this
-        setTimeout(function() {
-            // fixThis.create();
-            // console.log(`quadruple Time time`)
             var zombieId = setInterval(function() {
                 new Zombie(fixThis)
                 if (fixThis.player.health < 0) {
                     clearInterval(zombieId)
                     removeAllZombie()
                 }
-            }, 40)
-        }, 15000);
+            }, 400)
+        }, 17000);
+    }
+
+    quadrupleTime() {
+        let fixThis = this
+        setTimeout(function() {
+            var zombieId = setInterval(function() {
+                new Zombie(fixThis)
+                if (fixThis.player.health < 0) {
+                    clearInterval(zombieId)
+                    removeAllZombie()
+                }
+            }, 100)
+        }, 25000);
     }
 }
 
@@ -58,17 +70,18 @@ class Player {
         this.playerControl();
         player.style.left = 0
         this.health = 3;
-        this.fire()
+        this.fire(0);
+
     }
 
-    fire() {
+    fire(element) {
         let fixThis = this
         var intervalId = setInterval(function() {
-            new Arrow();
-            if(fixThis.health === 0){
+            new Arrow(player.x + element);
+            if (fixThis.health === 0) {
                 clearInterval(intervalId)
             }
-        }, 200)
+        }, 500)
     }
 
     playerControl() {
@@ -84,27 +97,34 @@ class Player {
                         player.style.left = `${player.offsetLeft - 25}px`
                     }
                     break;
+                case ("ArrowUp"):
+
+                    player.style.left = `50px`
+
+                    break;
+                case ("ArrowDown"):
+                    player.style.left = `750px`
+
+                    break;
             }
         })
     }
 }
 
 class Arrow {
-    constructor() {
+    constructor(element) {
         var body = document.getElementsByTagName("body")[0]
         this.arrow = makeImg('arrow')
-        this.playerPosition = player.x
+        this.playerPosition = element
         this.arrow.style.left = `${this.playerPosition}px`
         body.appendChild(this.arrow)
         this.arrowMoving = this.arrowMoving.bind(this)
-        this.arrowMoving()
         this.intervalId = setInterval(this.arrowMoving, 1)
     }
 
     arrowMoving() {
         var arow = this.arrow
-        console.log(arow)
-        arow.style.top = `${arow.offsetTop - 1}px`
+        arow.style.top = `${arow.offsetTop - 10}px`
         if (parseInt(arow.style.top, 10) < 0) {
             arow.remove()
             clearInterval(this.intervalId)
@@ -125,6 +145,39 @@ class Arrow {
 }
 
 
+
+
+
+
+class Star {
+    constructor(gameObj) {
+        var body = document.getElementsByTagName("body")[0]
+        this.star = makeImg('star')
+        this.position = Math.floor(Math.random() * 700)
+        this.star.style.left = `${this.position}px`
+        body.appendChild(this.star)
+        this.starMove = this.starMove.bind(this)
+        this.staring = setInterval(this.starMove, 200)
+        this.gameObj = gameObj
+    }
+    starMove() {
+        var star = this.star
+        star.style.top = `${star.offsetTop + 25}px`
+        if (isCollide(this.gameObj.player, star)) {
+            playMagic()
+            star.remove();
+            console.log(`hit`)
+            setInterval(function() {
+                new Arrow(player.x + 50);
+
+            }, 200)
+        }
+        if (parseInt(star.style.top, 10) > 900) {
+            star.remove();
+        }
+    }
+}
+
 class Zombie {
     constructor(gameObj) {
         var body = document.getElementsByTagName("body")[0]
@@ -134,20 +187,21 @@ class Zombie {
         body.appendChild(this.zombie)
         this.zombieMove = this.zombieMove.bind(this)
         Zombie.zombies.push(this)
-        this.charge = setInterval(this.zombieMove, 20)
+        this.charge = setInterval(this.zombieMove, 200)
         this.gameObj = gameObj
     }
 
     zombieMove() {
         var zombie = this.zombie
-        zombie.style.top = `${zombie.offsetTop + 2.5}px`
+        zombie.style.top = `${zombie.offsetTop + 25}px`
         if (parseInt(zombie.style.top, 10) > 750) {
             zombie.remove();
             this.gameObj.player.health--
             $(`i`).last().remove()
             if (this.gameObj.player.health === 0) {
-                $('.end-btn').text(`YOU POOR CHILD YOUR SCORE IS ${Game.score}`)
+                $('.end-btn').text(`${Game.score} POINTS FOR THIS POOR CHILD!`)
                 $('.end-btn').toggle('display')
+                $('#ranking').toggle('slow');
             }
             clearInterval(this.charge)
         }
@@ -197,24 +251,26 @@ $(document).ready(function() {
         $(this).css("display", "none");
     })
 
-    $(`.end-btn`).click(function(){
+    $(`.end-btn`).click(function() {
         location.reload();
         // new Game();
         // $(this).toggle('display')
     })
+    $('#ranking').css('display', 'none');
 });
 
 var x = document.getElementById("myAudio");
 var y = document.getElementById('zombieSpwan')
+var z = document.getElementById('magic')
 
-
-function playZom(){
-  y.play()
+function playZom() {
+    y.play()
 }
-
 
 function playAudio() {
-  x.play();
+    x.play();
 }
 
-
+function playMagic() {
+    z.play()
+}

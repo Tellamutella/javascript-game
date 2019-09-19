@@ -21,6 +21,11 @@ body {
     top: 0;
 }
 
+.star {
+    position: fixed;
+    top: 0;
+}
+
 #score {
     position: fixed;
     right: 250px;
@@ -63,7 +68,7 @@ body {
     letter-spacing: 2.5px;
     font-weight: bold;
     border: none;
-    border-radius: 35px;
+    border-radius: 15px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
     cursor: pointer;
@@ -81,30 +86,34 @@ body {
     display: none;
     position: fixed;
     top: 380px;
-    left: 380px;
+    left: 330px;
     width: 200px;
-    height: 65px;
+    height: 100px;
     font-size: 13px;
     letter-spacing: 2.5px;
     font-weight: bold;
     border: none;
-    border-radius: 35px;
+    border-radius: 15px;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
     background-color: red;
     color: white;
+
 }
 
-.ranking {
-  margin: 5px 5px;
+#ranking {
+    position: absolute;
+    right:0px;
+    top:150px;
+    margin: 5px 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-width: 300px;
-    min-height:800px;
+    min-width: 200px;
+    min-height:500px;
 /*    border: 1px black solid;*/
 }
 
@@ -122,6 +131,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-shadow: 2px 2px 8px;
 }
 
 .ranking-list p{
