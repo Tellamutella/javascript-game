@@ -1,11 +1,11 @@
 @font-face {
-  font-family: "MODERNA_";
-  src: url("./MODERNA_.TTF");
+    font-family: "MODERNA_";
+    src: url("./MODERNA_.TTF");
 }
 
 @font-face {
-  font-family: "kingthings";
-  src: url("./kingthings.TTF");
+    font-family: "kingthings";
+    src: url("./kingthings.TTF");
 }
 
 html,
@@ -59,12 +59,16 @@ body {
     max-width: 900px;
     min-width: 900px;
     min-height: 800px;
-    border: 1px black solid;
-    background-image: url("../images/name2.jpg");
+    background-image: linear-gradient(to bottom, rgba(117, 19, 93, 0.73), rgba(245, 246, 252, 0.52)),
+        url("../images/name2.jpg");
+    /*     url("../images/name2.jpg");*/
     background-repeat: no-repeat;
     background-size: cover;
     background-size: 900px 800px;
+
 }
+
+
 
 #health {
     float: right;
@@ -75,12 +79,12 @@ body {
 
 }
 
-.intro{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 5px;
-  font-family: "MODERNA_"
+.intro {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 5px;
+    font-family: "MODERNA_"
 }
 
 
@@ -91,7 +95,7 @@ body {
 .start-btn {
     position: absolute;
     bottom: 10px;
-    left:220px;
+    left: 220px;
     width: 180px;
     height: 65px;
     font-size: 13px;
@@ -99,7 +103,7 @@ body {
     font-weight: bold;
     border: none;
     border-radius: 15px;
-    box-shadow: 0px 8px 15px #98C5BA;
+    box-shadow: 0px 0px 30px #98C5BA;
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
