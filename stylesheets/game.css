@@ -1,3 +1,13 @@
+@font-face {
+  font-family: "MODERNA_";
+  src: url("./MODERNA_.TTF");
+}
+
+@font-face {
+  font-family: "kingthings";
+  src: url("./kingthings.TTF");
+}
+
 html,
 body {
     margin: 0;
@@ -32,6 +42,17 @@ body {
     top: 100px;
 }
 
+.menu {
+    height: 500px;
+    width: 600px;
+    background-color: white;
+    position: fixed;
+    top: 150px;
+    left: 150px;
+    border-radius: 40px;
+
+}
+
 .game {
     position: relative;
     margin: 5px 5px;
@@ -54,14 +75,23 @@ body {
 
 }
 
+.intro{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 5px;
+  font-family: "MODERNA_"
+}
+
+
 .fa {
     color: red;
 }
 
 .start-btn {
-    position: fixed;
-    top: 380px;
-    left: 380px;
+    position: absolute;
+    bottom: 10px;
+    left:220px;
     width: 180px;
     height: 65px;
     font-size: 13px;
@@ -69,14 +99,14 @@ body {
     font-weight: bold;
     border: none;
     border-radius: 15px;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 8px 15px #98C5BA;
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
 }
 
 .start-btn:hover {
-    background-color: #2EE59D;
+    background-color: #98C5BA;
     box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
     color: #fff;
     transform: translateY(-7px);
@@ -105,27 +135,27 @@ body {
 
 #ranking {
     position: absolute;
-    right:0px;
-    top:150px;
+    right: 0px;
+    top: 150px;
     margin: 5px 5px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     min-width: 200px;
-    min-height:500px;
-/*    border: 1px black solid;*/
+    min-height: 500px;
+    /*    border: 1px black solid;*/
 }
 
 
-.ranking-list{
+.ranking-list {
     margin: 15px 15px;
     width: 300px;
-    color:white;
+    color: white;
     font-weight: bold;
     height: 80px;
     background-color: #2bbda3;
-/*    border: 1px black solid;*/
+    /*    border: 1px black solid;*/
     list-style-type: none;
     border-radius: 10px;
     display: flex;
@@ -134,6 +164,6 @@ body {
     box-shadow: 2px 2px 8px;
 }
 
-.ranking-list p{
-  margin: 0px 15px;
+.ranking-list p {
+    margin: 0px 15px;
 }

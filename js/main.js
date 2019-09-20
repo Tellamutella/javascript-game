@@ -208,14 +208,23 @@ class Zombie {
     }
 }
 
-function makeImg(word) {
-    var img = document.createElement("img")
-    img.setAttribute("src", `./images/${word}.png`)
-    img.setAttribute("class", `${word}`)
-    return img
-}
+//////////////
+$(document).ready(function() {
+    $(`.start-btn`).click(function() {
+        new Game();
+        $(this).css("display", "none");
+        $('.menu').css("display", "none")
+    })
 
-Zombie.zombies = []
+    $(`.end-btn`).click(function() {
+        location.reload();
+        // new Game();
+        // $(this).toggle('display')
+    })
+    $('#ranking').css('display', 'none');
+});
+
+
 
 function isCollide(element1, element2) {
     var a = {
@@ -239,29 +248,25 @@ function isCollide(element1, element2) {
     );
 }
 
+function makeImg(word) {
+    var img = document.createElement("img")
+    img.setAttribute("src", `./images/${word}.png`)
+    img.setAttribute("class", `${word}`)
+    return img
+}
+
+Zombie.zombies = []
+
 function removeAllZombie() {
     Zombie.zombies.forEach(function(element) {
         element.zombie.remove();
     })
 }
 
-$(document).ready(function() {
-    $(`.start-btn`).click(function() {
-        new Game();
-        $(this).css("display", "none");
-    })
-
-    $(`.end-btn`).click(function() {
-        location.reload();
-        // new Game();
-        // $(this).toggle('display')
-    })
-    $('#ranking').css('display', 'none');
-});
-
 var x = document.getElementById("myAudio");
 var y = document.getElementById('zombieSpwan')
 var z = document.getElementById('magic')
+
 
 function playZom() {
     y.play()
